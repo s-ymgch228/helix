@@ -18,6 +18,6 @@ whitespace.render = "all"
 smart-tab.enable = false
 
 [editor.whitespace.characters]
-space = "․"
+space = " "
 tab = "→"
 newline = "↵"
