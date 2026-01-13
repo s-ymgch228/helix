@@ -26,6 +26,7 @@ jobs:
           chmod 600 $KEY
       - name: push to github.com
         id: normal_push
+        continue-on-error: true
         env:
           GIT_SSH_COMMAND: "ssh -i $KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
         run: |
