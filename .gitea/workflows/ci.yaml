@@ -3,7 +3,7 @@ name: backup to github.com
 on:
   push:
     branches:
-      - master
+      - main
 env:
   KEY: "./sshkey"
 
