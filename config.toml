@@ -16,6 +16,7 @@
 [editor]
 whitespace.render = "all"
 smart-tab.enable = false
+auto-pairs = false
 
 [editor.whitespace.characters]
 space = " "
