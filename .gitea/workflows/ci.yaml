@@ -1,4 +1,3 @@
-
 name: backup to github.com
 on:
   push:
@@ -10,6 +9,8 @@ env:
 jobs:
   push-github:
     runs-on: self-hosted
+    env:
+      BRANCH: "HEAD:refs/heads/main"
     steps:
       - uses: actions/checkout@v4
         env:
@@ -23,12 +24,26 @@ jobs:
           echo "${{ secrets.SSH_PRIVATEKEY_GITHUB }}" | tr -d '\r' > $KEY
           chmod 600 $KEY
       - name: push to github.com
+        id: normal_push
         env:
           GIT_SSH_COMMAND: "ssh -i $KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
         run: |
           git remote remove github || true
           git remote add github git@github.com:s-ymgch228/helix.git
-          git push github HEAD:refs/heads/main --force
+          git push github $BRANCH
+      - name: force push
+        if: steps.normal_push.outcome == 'failure'
+        run: |
+          export TZ="Asia/Tokyo"
+          TAG_NAME="$(date +'%Y%m%d-%H%M%S')"
+
+          git config user.name "gitea-actions"
+          git config user.email "gitea-actions@noreply.example.jp"
+
+          git fetch github
+          git tag $TAG_NAME github/main
+          git push github $TAG_NAME
+          git push github $BRANCH --force
       - name: cleanup
         if: always()
         run: rm -f $KEY
