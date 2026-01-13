@@ -3,9 +3,11 @@
 "C-f" = ["collapse_selection", "keep_primary_selection"]
 "C-v" = "vsplit"
 "C-n" = "rotate_view"
+"S-tab" = "unindent"
 
 [keys.insert]
 "C-f" = "normal_mode"
+"S-tab" = "unindent"
 
 [keys.select]
 "C-c" = "no_op"
